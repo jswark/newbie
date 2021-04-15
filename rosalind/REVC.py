@@ -1,5 +1,4 @@
 def reverseComp(dna):
-   i = 0
    pattern = dna.maketrans('ATCG', 'TAGC')
    newRNA = dna.translate(pattern)
 

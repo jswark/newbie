@@ -1,0 +1,9 @@
+.Rdata
+.Rhistory
+.ipynb_checkpoints/
+.idea/
+*.aux
+*.log
+*.gz
+*.iml
+java/*/out/*

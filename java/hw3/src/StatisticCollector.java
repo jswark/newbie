@@ -1,13 +1,18 @@
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class StatisticCollector {
-    private final String outputFile = "result.txt";
+
     private final String filename;
-    private final Map<Character, Integer> statistic; // new HashMap<>() если не нужен алфавитный порядок
+    private final Map<Character, Integer> statistic = new TreeMap<>();
+    // new HashMap<>() если не нужен алфавитный порядок
 
     public StatisticCollector(String filename) {
-        statistic = new TreeMap<>();
         this.filename = filename;
     }
 
@@ -19,21 +24,19 @@ public class StatisticCollector {
         int code;
         while ((code = fileReader.read()) != -1) {
             if (Character.isLetter(code)) { // считаем, что в файле есть только латинские символы и специальные значки
-                char symbol = Character.toUpperCase((char) code);
-                statistic.computeIfPresent(symbol, (key, value) -> value += 1);
+                statistic.computeIfPresent(Character.toUpperCase((char) code),
+                        (key, value) -> value += 1);
             }
         }
-
     }
 
     public void printStatistic(String outputFile) throws IOException {
-        if (outputFile == null) {
-            outputFile = this.outputFile;
+        if (outputFile == null || outputFile.isEmpty()) {
+            outputFile = "result.txt";
         }
-        try (final PrintWriter writer = new PrintWriter(new FileWriter(new File(outputFile)))) {
-            for (Map.Entry<Character, Integer> entry : statistic.entrySet()) {
-                writer.println(entry.getKey() + ": " + entry.getValue());
-            }
+        try (final PrintWriter writer = new PrintWriter(new FileWriter(outputFile))) {
+            statistic.forEach((key, value) -> writer.println(key + ": " + value));
         }
     }
+
 }

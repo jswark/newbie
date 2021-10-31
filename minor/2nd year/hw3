@@ -1,0 +1,368 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Значение разложения тригонометрических функций в ряд тейлора до 3х слагаемых, очевидно, будет в разы меньше, чем их библиотечные аналоги из-за недостаточной точности вычислений. \n",
+    "\n",
+    "Ниже я привожу примеры разложения в ряд тейлора до 17 слагаемого - максимальная достижимая точность в питоне (дальше числа типа с плавающей точкой ломаются:( ) + сравнение с библиотечными функциями. И до 3 слагаемого + сравнение."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from math import factorial as fact\n",
+    "from math import pi\n",
+    "import sympy"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "sin = lambda x: (sum((-1) ** i * x ** (2 * i + 1) / fact(2 * i + 1) for i in range(0, 17)))\n",
+    "cos = lambda x: (sum((-1) ** i * x ** (2 * i) / fact(2 * i) for i in range(0, 17)))\n",
+    "tg = lambda x: (sin(x) / cos(x))\n",
+    "cot = lambda x: (cos(x) / sin(x))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "ang1 = pi/2\n",
+    "ang2 = 2*pi/3\n",
+    "ang3 = 5*pi/4\n",
+    "ang4 = pi/6"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "cos for angle = pi/2 \n",
+      " sympy:  6.12323399573677e-17 \n",
+      " teylor:  4.2539467343847764e-17 \n",
+      "\n",
+      "cos for angle = 2pi/3 \n",
+      " sympy:  -0.500000000000000 \n",
+      " teylor:  -0.4999999999999999 \n",
+      "\n",
+      "cos for angle = 5pi/4 \n",
+      " sympy:  -0.707106781186548 \n",
+      " teylor:  -0.707106781186548 \n",
+      "\n",
+      "cos for angle = pi/6 \n",
+      " sympy:  0.866025403784439 \n",
+      " teylor:  0.8660254037844386 \n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(\"cos for angle = pi/2 \\n\", \"sympy: \", sympy.cos(ang1), \"\\n\", \"teylor: \", cos(ang1), \"\\n\")\n",
+    "print(\"cos for angle = 2pi/3 \\n\", \"sympy: \", sympy.cos(ang2), \"\\n\", \"teylor: \", cos(ang2), \"\\n\")\n",
+    "print(\"cos for angle = 5pi/4 \\n\", \"sympy: \", sympy.cos(ang3), \"\\n\", \"teylor: \", cos(ang3), \"\\n\")\n",
+    "print(\"cos for angle = pi/6 \\n\", \"sympy: \", sympy.cos(ang4), \"\\n\", \"teylor: \", cos(ang4), \"\\n\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "sin for angle = pi/2 \n",
+      " sympy:  1.00000000000000 \n",
+      " teylor:  1.0000000000000002 \n",
+      "\n",
+      "sin for angle = 2pi/3 \n",
+      " sympy:  0.866025403784439 \n",
+      " teylor:  0.8660254037844389 \n",
+      "\n",
+      "sin for angle = 5pi/4 \n",
+      " sympy:  -0.707106781186547 \n",
+      " teylor:  -0.7071067811865474 \n",
+      "\n",
+      "sin for angle = pi/6 \n",
+      " sympy:  0.500000000000000 \n",
+      " teylor:  0.49999999999999994 \n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(\"sin for angle = pi/2 \\n\", \"sympy: \", sympy.sin(ang1), \"\\n\", \"teylor: \", sin(ang1), \"\\n\")\n",
+    "print(\"sin for angle = 2pi/3 \\n\", \"sympy: \", sympy.sin(ang2), \"\\n\", \"teylor: \", sin(ang2), \"\\n\")\n",
+    "print(\"sin for angle = 5pi/4 \\n\", \"sympy: \", sympy.sin(ang3), \"\\n\", \"teylor: \", sin(ang3), \"\\n\")\n",
+    "print(\"sin for angle = pi/6 \\n\", \"sympy: \", sympy.sin(ang4), \"\\n\", \"teylor: \", sin(ang4), \"\\n\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "tg for angle = pi/2 \n",
+      " sympy:  1.63312393531954e+16 \n",
+      " teylor:  2.3507581604559616e+16 \n",
+      "\n",
+      "tg for angle = 2pi/3 \n",
+      " sympy:  -1.73205080756888 \n",
+      " teylor:  -1.7320508075688783 \n",
+      "\n",
+      "tg for angle = 5pi/4 \n",
+      " sympy:  1.00000000000000 \n",
+      " teylor:  0.9999999999999991 \n",
+      "\n",
+      "tg for angle = pi/6 \n",
+      " sympy:  0.577350269189626 \n",
+      " teylor:  0.5773502691896257 \n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(\"tg for angle = pi/2 \\n\", \"sympy: \", sympy.tan(ang1), \"\\n\", \"teylor: \", tg(ang1), \"\\n\")\n",
+    "print(\"tg for angle = 2pi/3 \\n\", \"sympy: \", sympy.tan(ang2), \"\\n\", \"teylor: \", tg(ang2), \"\\n\")\n",
+    "print(\"tg for angle = 5pi/4 \\n\", \"sympy: \", sympy.tan(ang3), \"\\n\", \"teylor: \", tg(ang3), \"\\n\")\n",
+    "print(\"tg for angle = pi/6 \\n\", \"sympy: \", sympy.tan(ang4), \"\\n\", \"teylor: \", tg(ang4), \"\\n\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "cot for angle = pi/2 \n",
+      " sympy:  6.12323399573677e-17 \n",
+      " teylor:  4.253946734384775e-17 \n",
+      "\n",
+      "cot for angle = 2pi/3 \n",
+      " sympy:  -0.577350269189626 \n",
+      " teylor:  -0.5773502691896254 \n",
+      "\n",
+      "cot for angle = 5pi/4 \n",
+      " sympy:  1.00000000000000 \n",
+      " teylor:  1.0000000000000009 \n",
+      "\n",
+      "cot for angle = pi/6 \n",
+      " sympy:  1.73205080756888 \n",
+      " teylor:  1.7320508075688774 \n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(\"cot for angle = pi/2 \\n\", \"sympy: \", sympy.cot(ang1), \"\\n\", \"teylor: \", cot(ang1), \"\\n\")\n",
+    "print(\"cot for angle = 2pi/3 \\n\", \"sympy: \", sympy.cot(ang2), \"\\n\", \"teylor: \", cot(ang2), \"\\n\")\n",
+    "print(\"cot for angle = 5pi/4 \\n\", \"sympy: \", sympy.cot(ang3), \"\\n\", \"teylor: \", cot(ang3), \"\\n\")\n",
+    "print(\"cot for angle = pi/6 \\n\", \"sympy: \", sympy.cot(ang4), \"\\n\", \"teylor: \", cot(ang4), \"\\n\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "sin = lambda x: (sum((-1) ** i * x ** (2 * i + 1) / fact(2 * i + 1) for i in range(0, 3)))\n",
+    "cos = lambda x: (sum((-1) ** i * x ** (2 * i) / fact(2 * i) for i in range(0, 3)))\n",
+    "tg = lambda x: (sin(x) / cos(x))\n",
+    "cot = lambda x: (cos(x) / sin(x))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "cos for angle = pi/2 \n",
+      " sympy:  6.12323399573677e-17 \n",
+      " teylor:  0.019968957764878226 \n",
+      "\n",
+      "cos for angle = 2pi/3 \n",
+      " sympy:  -0.500000000000000 \n",
+      " teylor:  -0.3915245086041995 \n",
+      "\n",
+      "cos for angle = 5pi/4 \n",
+      " sympy:  -0.707106781186548 \n",
+      " teylor:  3.1983367140336254 \n",
+      "\n",
+      "cos for angle = pi/6 \n",
+      " sympy:  0.866025403784439 \n",
+      " teylor:  0.8660538834157472 \n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(\"cos for angle = pi/2 \\n\", \"sympy: \", sympy.cos(ang1), \"\\n\", \"teylor: \", cos(ang1), \"\\n\")\n",
+    "print(\"cos for angle = 2pi/3 \\n\", \"sympy: \", sympy.cos(ang2), \"\\n\", \"teylor: \", cos(ang2), \"\\n\")\n",
+    "print(\"cos for angle = 5pi/4 \\n\", \"sympy: \", sympy.cos(ang3), \"\\n\", \"teylor: \", cos(ang3), \"\\n\")\n",
+    "print(\"cos for angle = pi/6 \\n\", \"sympy: \", sympy.cos(ang4), \"\\n\", \"teylor: \", cos(ang4), \"\\n\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 20,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "sin for angle = pi/2 \n",
+      " sympy:  1.00000000000000 \n",
+      " teylor:  1.0045248555348174 \n",
+      "\n",
+      "sin for angle = 2pi/3 \n",
+      " sympy:  0.866025403784439 \n",
+      " teylor:  0.8990450164363117 \n",
+      "\n",
+      "sin for angle = 5pi/4 \n",
+      " sympy:  -0.707106781186547 \n",
+      " teylor:  1.616284825304394 \n",
+      "\n",
+      "sin for angle = pi/6 \n",
+      " sympy:  0.500000000000000 \n",
+      " teylor:  0.5000021325887924 \n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(\"sin for angle = pi/2 \\n\", \"sympy: \", sympy.sin(ang1), \"\\n\", \"teylor: \", sin(ang1), \"\\n\")\n",
+    "print(\"sin for angle = 2pi/3 \\n\", \"sympy: \", sympy.sin(ang2), \"\\n\", \"teylor: \", sin(ang2), \"\\n\")\n",
+    "print(\"sin for angle = 5pi/4 \\n\", \"sympy: \", sympy.sin(ang3), \"\\n\", \"teylor: \", sin(ang3), \"\\n\")\n",
+    "print(\"sin for angle = pi/6 \\n\", \"sympy: \", sympy.sin(ang4), \"\\n\", \"teylor: \", sin(ang4), \"\\n\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 21,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "tg for angle = pi/2 \n",
+      " sympy:  1.63312393531954e+16 \n",
+      " teylor:  50.30432070428805 \n",
+      "\n",
+      "tg for angle = 2pi/3 \n",
+      " sympy:  -1.73205080756888 \n",
+      " teylor:  -2.2962675303302036 \n",
+      "\n",
+      "tg for angle = 5pi/4 \n",
+      " sympy:  1.00000000000000 \n",
+      " teylor:  0.5053516780182893 \n",
+      "\n",
+      "tg for angle = pi/6 \n",
+      " sympy:  0.577350269189626 \n",
+      " teylor:  0.5773337458135588 \n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(\"tg for angle = pi/2 \\n\", \"sympy: \", sympy.tan(ang1), \"\\n\", \"teylor: \", tg(ang1), \"\\n\")\n",
+    "print(\"tg for angle = 2pi/3 \\n\", \"sympy: \", sympy.tan(ang2), \"\\n\", \"teylor: \", tg(ang2), \"\\n\")\n",
+    "print(\"tg for angle = 5pi/4 \\n\", \"sympy: \", sympy.tan(ang3), \"\\n\", \"teylor: \", tg(ang3), \"\\n\")\n",
+    "print(\"tg for angle = pi/6 \\n\", \"sympy: \", sympy.tan(ang4), \"\\n\", \"teylor: \", tg(ang4), \"\\n\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 22,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "cot for angle = pi/2 \n",
+      " sympy:  6.12323399573677e-17 \n",
+      " teylor:  0.01987900812493742 \n",
+      "\n",
+      "cot for angle = 2pi/3 \n",
+      " sympy:  -0.577350269189626 \n",
+      " teylor:  -0.4354893263922954 \n",
+      "\n",
+      "cot for angle = 5pi/4 \n",
+      " sympy:  1.00000000000000 \n",
+      " teylor:  1.9788199851664663 \n",
+      "\n",
+      "cot for angle = pi/6 \n",
+      " sympy:  1.73205080756888 \n",
+      " teylor:  1.7321003791157825 \n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(\"cot for angle = pi/2 \\n\", \"sympy: \", sympy.cot(ang1), \"\\n\", \"teylor: \", cot(ang1), \"\\n\")\n",
+    "print(\"cot for angle = 2pi/3 \\n\", \"sympy: \", sympy.cot(ang2), \"\\n\", \"teylor: \", cot(ang2), \"\\n\")\n",
+    "print(\"cot for angle = 5pi/4 \\n\", \"sympy: \", sympy.cot(ang3), \"\\n\", \"teylor: \", cot(ang3), \"\\n\")\n",
+    "print(\"cot for angle = pi/6 \\n\", \"sympy: \", sympy.cot(ang4), \"\\n\", \"teylor: \", cot(ang4), \"\\n\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.8.3"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}
